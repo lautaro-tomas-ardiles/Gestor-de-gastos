@@ -4,18 +4,18 @@ import android.content.Context
 import com.example.gestordegastos.sql.DataBase
 
 
-fun debtCalculator(context: Context): List<String> {
+fun debtCalculator(context: Context, idBill: Int): List<String> {
     val db = DataBase(context)
 
     val debtors = mutableListOf<Expense>()
     val creditors = mutableListOf<Expense>()
     val balances = mutableListOf<String>()
 
-    val totalExpense = db.getAllExpenses()
-    val numberOfParticipants = db.getNumberOfParticipants()
+    val totalExpense = db.getAllExpensesForBill(idBill)
+    val numberOfParticipants = db.getNumberOfParticipantsForBill(idBill)
     val expensePerPerson = totalExpense / numberOfParticipants
-    val peopleAndExpense = db.getIndividualSpending()
-    val transfers = db.getTransfer()
+    val peopleAndExpense = db.getExpenseAndPeopleForBill(idBill)
+    val transfers = db.getTransferForBill(idBill)
 
     for (j in peopleAndExpense) {
         // Calcular el impacto de las transferencias para cada persona
